@@ -24,9 +24,13 @@ def chat():
     data = request.json
     user_message = data.get("message", "")
 
+    from google.genai import types
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=user_message
+        contents=user_message,
+        config=types.GenerateContentConfig(
+            system_instruction="You are a helpful AI assistant. If anyone asks who created you, developed you, or made you (in English or Tamil), you MUST reply 'I am developed by Dhanamalini' (or the equivalent in Tamil 'என்னை உருவாக்கியவர் Dhanamalini')."
+        )
     )
 
     return jsonify({
